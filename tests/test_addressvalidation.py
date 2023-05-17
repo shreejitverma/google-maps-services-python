@@ -43,6 +43,6 @@ class AddressValidationTest(TestCase):
 
         self.assertEqual(1, len(responses.calls))
         self.assertURLEqual(
-            "https://addressvalidation.googleapis.com/v1:validateAddress?" "key=%s" % self.key,
+            f"https://addressvalidation.googleapis.com/v1:validateAddress?key={self.key}",
             responses.calls[0].request.url,
         )
