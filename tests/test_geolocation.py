@@ -43,6 +43,6 @@ class GeolocationTest(TestCase):
 
         self.assertEqual(1, len(responses.calls))
         self.assertURLEqual(
-            "https://www.googleapis.com/geolocation/v1/geolocate?" "key=%s" % self.key,
+            f"https://www.googleapis.com/geolocation/v1/geolocate?key={self.key}",
             responses.calls[0].request.url,
         )

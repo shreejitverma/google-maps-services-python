@@ -64,15 +64,15 @@ class StaticMapMarker(StaticMapParam):
         super(StaticMapMarker, self).__init__()
 
         if size:
-            self.params.append("size:%s" % size)
+            self.params.append(f"size:{size}")
 
         if color:
-            self.params.append("color:%s" % color)
+            self.params.append(f"color:{color}")
 
         if label:
             if len(label) != 1 or (label.isalpha() and not label.isupper()) or not label.isalnum():
                 raise ValueError("Marker label must be alphanumeric and uppercase.")
-            self.params.append("label:%s" % label)
+            self.params.append(f"label:{label}")
 
         self.params.append(convert.location_list(locations))
 
@@ -108,16 +108,16 @@ class StaticMapPath(StaticMapParam):
         super(StaticMapPath, self).__init__()
 
         if weight:
-            self.params.append("weight:%s" % weight)
+            self.params.append(f"weight:{weight}")
 
         if color:
-            self.params.append("color:%s" % color)
+            self.params.append(f"color:{color}")
 
         if fillcolor:
-            self.params.append("fillcolor:%s" % fillcolor)
+            self.params.append(f"fillcolor:{fillcolor}")
 
         if geodesic:
-            self.params.append("geodesic:%s" % geodesic)
+            self.params.append(f"geodesic:{geodesic}")
 
         self.params.append(convert.location_list(points))
 

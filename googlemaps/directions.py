@@ -113,7 +113,7 @@ def directions(client, origin, destination,
     if waypoints:
         waypoints = convert.location_list(waypoints)
         if optimize_waypoints:
-            waypoints = "optimize:true|" + waypoints
+            waypoints = f"optimize:true|{waypoints}"
         params["waypoints"] = waypoints
 
     if alternatives:
