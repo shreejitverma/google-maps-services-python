@@ -27,8 +27,7 @@ def _addressvalidation_extract(response):
     Mimics the exception handling logic in ``client._get_body``, but
     for addressvalidation which uses a different response format.
     """
-    body = response.json()
-    return body
+    return response.json()
 
     # if response.status_code in (200, 404):
     #     return body

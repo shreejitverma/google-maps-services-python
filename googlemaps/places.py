@@ -159,7 +159,7 @@ def find_place(
     """
     params = {"input": input, "inputtype": input_type}
 
-    if input_type != "textquery" and input_type != "phonenumber":
+    if input_type not in ["textquery", "phonenumber"]:
         raise ValueError(
             "Valid values for the `input_type` param for "
             "`find_place` are 'textquery' or 'phonenumber', "
@@ -167,27 +167,22 @@ def find_place(
         )
 
     if fields:
-        deprecated_fields = set(fields) & DEPRECATED_FIELDS
-        if deprecated_fields:
+        if deprecated_fields := set(fields) & DEPRECATED_FIELDS:
             warnings.warn(
                 DEPRECATED_FIELDS_MESSAGE % str(list(deprecated_fields)),
                 DeprecationWarning,
             )
 
-        invalid_fields = set(fields) - PLACES_FIND_FIELDS
-        if invalid_fields:
+        if invalid_fields := set(fields) - PLACES_FIND_FIELDS:
             raise ValueError(
-                "Valid values for the `fields` param for "
-                "`find_place` are '%s', these given field(s) "
-                "are invalid: '%s'"
-                % ("', '".join(PLACES_FIND_FIELDS), "', '".join(invalid_fields))
+                f"""Valid values for the `fields` param for `find_place` are '{"', '".join(PLACES_FIND_FIELDS)}', these given field(s) are invalid: '{"', '".join(invalid_fields)}'"""
             )
         params["fields"] = convert.join_list(",", fields)
 
     if location_bias:
         valid = ["ipbias", "point", "circle", "rectangle"]
         if location_bias.split(":")[0] not in valid:
-            raise ValueError("location_bias should be prefixed with one of: %s" % valid)
+            raise ValueError(f"location_bias should be prefixed with one of: {valid}")
         params["locationbias"] = location_bias
     if language:
         params["language"] = language
@@ -421,7 +416,7 @@ def _places(
     if page_token:
         params["pagetoken"] = page_token
 
-    url = "/maps/api/place/%ssearch/json" % url_part
+    url = f"/maps/api/place/{url_part}search/json"
     return client._request(url, params)
 
 
@@ -467,20 +462,15 @@ def place(
     params = {"placeid": place_id}
 
     if fields:
-        deprecated_fields = set(fields) & DEPRECATED_FIELDS
-        if deprecated_fields:
+        if deprecated_fields := set(fields) & DEPRECATED_FIELDS:
             warnings.warn(
                 DEPRECATED_FIELDS_MESSAGE % str(list(deprecated_fields)),
                 DeprecationWarning,
             )
 
-        invalid_fields = set(fields) - PLACES_DETAIL_FIELDS
-        if invalid_fields:
+        if invalid_fields := set(fields) - PLACES_DETAIL_FIELDS:
             raise ValueError(
-                "Valid values for the `fields` param for "
-                "`place` are '%s', these given field(s) "
-                "are invalid: '%s'"
-                % ("', '".join(PLACES_DETAIL_FIELDS), "', '".join(invalid_fields))
+                f"""Valid values for the `fields` param for `place` are '{"', '".join(PLACES_DETAIL_FIELDS)}', these given field(s) are invalid: '{"', '".join(invalid_fields)}'"""
             )
         params["fields"] = convert.join_list(",", fields)
 
@@ -703,5 +693,5 @@ def _autocomplete(
     if strict_bounds:
         params["strictbounds"] = "true"
 
-    url = "/maps/api/place/%sautocomplete/json" % url_part
+    url = f"/maps/api/place/{url_part}autocomplete/json"
     return client._request(url, params).get("predictions", [])
